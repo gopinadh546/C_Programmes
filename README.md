@@ -1,2 +1,2 @@
 # C_Programmes
-General C programmes
+General Competetive programmes
