@@ -1,0 +1,36 @@
+#include<stdio.h>
+
+int isprime(int n)
+{
+
+    if(n==1) return 0;
+    for(int i=2; i*i<=n;i++){
+        if(n%i==0)
+            return 0;
+    }
+    return 1;
+}
+int main(){
+int l,r,i,j,k,m,n,count1=0,count2=0,sum1=0,sum2=0;
+printf("enter two numbers\n");
+scanf("%d %d",&l,&r);
+for(i=l+1;i<r;i++){
+    if(isprime(i)==0){
+        count1++;
+        sum1+=i;
+
+    }
+    else{
+        count2++;
+        sum2+=i;
+    }
+
+
+}
+printf("composite nos:%d\n",count1);
+printf("composite sum:%d\n",sum1);
+printf("prime nos:%d\n",count2);
+printf("prime sum:%d\n",sum2);
+
+
+}
