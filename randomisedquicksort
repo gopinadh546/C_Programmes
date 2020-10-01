@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<time.h>
+void swap (int *a , int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+int partition(int a[] , int l , int h){
+    int pivot =a[l];
+    int i=h+1;
+    for(int j=h ; j>=l ;j-- ){
+        if(a[j] > pivot){
+            i--;
+            swap(&a[i] , &a[j]);
+        }
+    }
+    swap(&a[i-1] , &a[l]);
+    return (i-1);
+}
+
+int partition_l(int a[] , int l , int r){
+   
+    int pivot = l + rand()%(r-l);
+    swap(&a[pivot] , &a[l]);
+    return partition(a , l , r);
+}
+
+void quicksort(int a[] , int l , int h)
+{
+    if(l<h){
+        int pivot=partition_l(a, l , h);
+        quicksort(a , l , pivot-1);
+        quicksort(a , pivot+1 , h);
+    }
+}
+
+void print(int a[] , int n)
+{
+    for (int i=0 ; i<n; i++)
+        printf("%d " , a[i]);
+    printf("\n");
+}
+int main()
+{
+     double quick_time=0.0;
+	clock_t start, end;
+	 srand(time(NULL));
+    double c=0;
+    
+    for(int i=0 ; i<100 ; i++){
+
+    int a[] = { 14,3,7,9,12,4,2,15,10,8,13,1,11.6,5,20,25,60,71,84,69,99,86,78,58,44,71,88,29,33,92};
+    int n = sizeof (a) / sizeof (a[0]);
+  
+    start = clock();
+    quicksort(a , 0 , n-1);
+    printf("Sorted array\n");
+    print(a,n);
+    end = clock();
+
+	quick_time = ((double) (end - start)) / (CLOCKS_PER_SEC);
+    c = c + quick_time;
+	printf("\nTime taken to print  numbers once is: %f\n", quick_time);
+    }
+	printf("\nAvg Time taken to print  100 iterations in quicksort is: %f\n", c/100);
+    
+    return 0;
+}
