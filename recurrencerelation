@@ -1,0 +1,56 @@
+#include <stdio.h>
+#define mod 1000000007
+#define lli long long int
+#define rep(i,n) for(i=1;i<=n;i++)
+lli ar[3];
+lli i[3][3],t[3][3];
+
+void mult (lli a[3][3], lli b[3][3], int dim)
+{
+  lli res[dim + 1][dim + 1], x, y, z,k;
+  rep (x, dim)
+  {
+    rep (y, dim)
+    {
+      res[x][y] = 0;
+      rep (z, dim){
+        k=(a[x][z]*b[z][y])%mod;
+        res[x][y]=(res[x][y]+k)%mod;
+      } 
+        
+    }
+  }
+  rep (x, dim) rep (y, dim) a[x][y] = res[x][y];
+}
+lli getfib(int n){
+    if(n<=2) return ar[n];
+    
+    i[1][1]=i[2][2]=1;
+    i[1][2]=i[2][1]=0;
+    t[1][1]=0;
+    t[1][2]=t[2][1]=t[2][2]=1;
+    n=n-1;
+    while(n){
+        if(n%2)
+        mult(i,t,2),n--;
+        else
+        mult(t,t,2),n/=2;
+    }
+    lli a=(ar[1]*i[1][1]+ar[2]*i[2][1]);
+    return a;
+    
+    
+}
+
+int main()
+{
+    int t,n;
+    scanf("%d",&t);
+    while(t--){
+    scanf("%lld %lld %d",&ar[1],&ar[2],&n),n++;
+    printf("%lld",getfib(n));
+    }
+    
+
+    return 0;
+}
