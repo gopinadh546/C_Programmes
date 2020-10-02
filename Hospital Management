@@ -1,0 +1,226 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+class Doctor;
+class Patient
+{
+  private:
+  string Doctor_ID,Patient_ID,disease,Patient_Name;
+  int Patient_Age;
+  public:
+  Patient()
+  {
+  Patient_ID="NULL";
+  Doctor_ID="NULL";
+  Patient_Name="NULL";
+  disease="NULL";
+  Patient_Age=0;
+  }
+  Patient(string Pat_id,string Pat_name,string dis,string doc_ID,int age)
+  {
+  this->Patient_ID=Pat_id;
+      this->Patient_Name=Pat_name;
+      this->disease=dis;
+      this->Doctor_ID=doc_ID;
+    this->Patient_Age=age;
+  }
+  void input_patient(string Pat_id,string Pat_name,string dis,string doc_ID,int age)
+  {
+  this->Patient_ID=Pat_id;
+  this->Patient_Name=Pat_name;
+      this->disease=dis;
+      this->Doctor_ID=doc_ID;
+    this->Patient_Age=age;
+  }
+  friend class Hospital;
+  friend void displayDetails(Patient,Doctor);
+};
+class Doctor
+{
+private:
+string Doctor_Name,Specilization;
+public:
+Doctor()
+  {
+    Doctor_Name="NULL";  
+    Specilization="NULL";  
+  }
+Doctor(string Doc_name,string Spcl)
+{
+    this->Doctor_Name=Doc_name;
+    this->Specilization=Spcl;
+}
+  void input_doctor(string Doc_name,string Spcl)
+  {
+  this->Doctor_Name=Doc_name;
+    this->Specilization=Spcl;
+  }
+ friend class Hospital;
+ friend void displayDetails(Patient,Doctor);
+};
+void displayDetails(Patient p,Doctor d)
+{
+  cout<<"----DISPLAYING PATIENT DETAILS----\n";
+  cout<<"Patient Name : "<<p.Patient_Name<<endl;
+  cout<<"Patient age : "<<p.Patient_Age<<endl;
+  cout<<"Disease : "<<p.disease<<endl;
+  cout<<"\n";
+  cout<<"----DISPLAYING DOCTOR DETAILS----"<<endl;
+  cout<<"Doctor Name : "<<d.Doctor_Name<<endl;
+  cout<<"Doctor_ID : "<<p.Doctor_ID<<endl;
+  cout<<"Doctor Specilization : "<<d.Specilization<<endl;
+
+}
+class Hospital:public Doctor,public Patient
+{
+  int i,p;
+public:
+Patient pat[100];
+Doctor  Doc[100];
+void input()
+{
+cout<<"ENTER TOTAL PATIENTS AND DOCTORS"<<endl;
+cin>>p;
+for(i=0;i<p;i++)
+  {
+  cout<<"\nPatient "<<i+1<<endl;
+  A:
+cout<<"Enter the Patient id:\n";
+cin>>Patient_ID;
+if(Patient_ID[0]!='P')
+{
+cout<<"!!!!Invalid Patient id!!!!"<<"\nPlease enter Patient id starting with 'P'\n";
+goto A;
+}
+B:
+    cout<<"REFERRED DOCTOR ID:"<<endl;
+    cin>>Doctor_ID;
+    if(Doctor_ID[0]!='D')
+{
+cout<<"\n!!!!Invalid Doctor id!!!!"<<"\nPlease enter Doctor id starting with 'D'\n";
+goto B;
+}
+    cout<<"Enter patient name"<<endl;
+    cin>>Patient_Name;
+    cout<<"Age of the patient"<<endl;
+    cin>>Patient_Age;
+    cout<<"Enter disease of patient"<<endl;
+    cin>>disease;
+    cout<<"ENTER NAME OF DOCTOR:"<<endl;
+  cin>>Doctor_Name;
+  cout<<"ENTER SPECILIZATION OF DOCTOR"<<endl;
+  cin>>Specilization;
+  pat[i].input_patient(Patient_ID,Patient_Name,disease,Doctor_ID,Patient_Age);
+      Doc[i].input_doctor(Doctor_Name,Specilization);
+  }
+  }
+ void details()
+ {
+for(i=0;i<p;i++)
+  {
+     cout<<"\n";
+     cout<<"\nPATIENT ID: "<<pat[i].Patient_ID<<endl;
+     displayDetails(pat[i],Doc[i]);
+  }
+ }
+
+void searchPatient()
+{
+  string search_name;
+  cout<<"Enter name of patient to search"<<endl;
+  cin>>search_name;
+  for(i=0;i<p;i++)
+  {
+  if(search_name==pat[i].Patient_Name)
+    {
+    cout<<"PATIENT NAME IS : "<<pat[i].Patient_Name<<endl;
+    cout<<"REFFERED DOCTOR ID: "<<pat[i].Doctor_ID<<endl;
+      cout<<"REFERRED DOCTOR NAME:"<<Doc[i].Doctor_Name<<endl;
+    }
+    else if(search_name!=pat[i].Patient_Name)
+    cout<<"No such patient.... Please enter correct name\n";
+  }
+ 
+ 
+}
+void searchdoctor()
+{
+string docid;
+  cout<<"Enter Doctor ID to search"<<endl;
+  cin>>docid;
+  for(i=0;i<p;i++)
+  {
+  if(docid==pat[i].Doctor_ID)
+    {
+    cout<<"THE DOCTOR ID YOU ENTERED IS : "<<pat[i].Doctor_ID<<endl;
+    cout<<"THE DOCTOR NAME IS : "<<Doc[i].Doctor_Name<<endl;
+    }
+    else if(docid==pat[i].Doctor_ID)
+    cout<<"No such Doctor ID..... Please Enter Valid Doctor ID\n";
+  }
+  cout<<"THE PATIENTS HANDLED BY DOCTOR ARE : "<<endl;
+  for(i=0;i<p;i++)
+  {
+  if(docid==pat[i].Doctor_ID)
+    {
+    cout<<pat[i].Patient_Name<<endl;
+    }
+  }
+   
+       
+}
+};
+
+
+int main()
+{
+  Hospital H;
+H.input();
+// Patient p;
+//  Doctor d;
+int w,l;
+A:
+cout<<"\n\n######MAIN MENU######"<<endl;
+cout<<"Select an option : "<<endl;
+cout<<"1.Display Every details\n2.Search patient\n3.Search doctor\n"<<endl;
+cin>>w;
+switch(w)
+{
+X:
+case 1 :
+H.details();
+cout<<"\nEnter 1 to search patients, 0 to exit\n";
+cin>>l;
+if(l==1)
+goto Y;
+else if(l==0)
+goto F;
+break;
+Y:
+case 2 :
+H.searchPatient();
+cout<<"Enter 1 to search doctor and patients handled by him, 0 to exit\n";
+cin>>l;
+if(l==1)
+goto Z;
+else if(l==0)
+goto F;
+break;
+Z:
+case 3 :
+H.searchdoctor();
+cout<<"To continue to Menu Press 1,  0 to exit\n";
+cin>>l;
+if(l==1)
+goto A;
+else if(l==0)
+goto F;
+break;
+default:
+cout<<"No such option"<<endl;
+F:
+return 0;
+
+}
+}
